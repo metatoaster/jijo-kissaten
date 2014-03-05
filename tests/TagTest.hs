@@ -13,7 +13,7 @@ tagSpecs =
     ydescribe "Testing tags." $ do
 
         yit "Default tag list" $ do
-            get TagsR
+            get TagListR
             statusIs 200
             printBody
             htmlAllContain "#main p" "There are no tags defined"

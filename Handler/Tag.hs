@@ -1,5 +1,5 @@
 module Handler.Tag
-    ( getTagsR
+    ( getTagListR
     , getTagR
     , getTagAddR
     , postTagAddR
@@ -14,8 +14,8 @@ entryForm = renderDivs $ Tag
     <$> areq textField "Name" Nothing
     <*> areq textField "Type" Nothing
 
-getTagsR :: Handler Html
-getTagsR = do
+getTagListR :: Handler Html
+getTagListR = do
     tags <- runDB $ selectList [] [Asc TagName]
     defaultLayout $ do
         $(widgetFile "tags")
