@@ -1,0 +1,5 @@
+<h1 id="tag_id">Tag: #{tagName tag}
+<dl>
+  <dt>type:
+  <dd>#{tagType tag}
+

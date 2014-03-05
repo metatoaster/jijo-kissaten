@@ -21,6 +21,8 @@ library
                      Settings.Development
                      Handler.Home
 
+                     Handler.Tag
+
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
         ghc-options:   -Wall -O0
@@ -100,3 +102,4 @@ test-suite test
                  , monad-logger
                  , transformers
                  , hspec
+                 , text

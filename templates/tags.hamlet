@@ -1,0 +1,11 @@
+<h1>Tags
+$if null tags
+    <p>There are no tags defined
+$else
+    <ul>
+        $forall Entity tagId tag <- tags
+            <li>
+                <a href=@{TagR tagId} > #{tagName tag}
+
+<hr>
+    <a href=@{TagAddR} > Add Tag

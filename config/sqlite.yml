@@ -6,7 +6,7 @@ Development:
   <<: *defaults
 
 Testing:
-  database: jijo-kissaten_test.sqlite3
+  database: ':memory:'
   <<: *defaults
 
 Staging:
