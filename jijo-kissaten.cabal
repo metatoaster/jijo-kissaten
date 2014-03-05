@@ -22,6 +22,7 @@ library
                      Handler.Home
 
                      Handler.Tag
+                     Handler.Toukou
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

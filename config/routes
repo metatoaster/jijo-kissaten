@@ -10,3 +10,7 @@
 /tag/add           TagAddR   GET POST
 /tag/info/#TagId   TagR      GET
 
+/post                   ToukouListR       GET
+/post/show/#ToukouId    ToukouR           GET
+/post/add               ToukouAddR        GET POST
+/post/upload            ToukouUploadR     GET POST

@@ -12,6 +12,7 @@ import Application (makeFoundation)
 
 import HomeTest
 import TagTest
+import ToukouTest
 
 main :: IO ()
 main = do
@@ -23,3 +24,4 @@ main = do
         yesodSpec foundation $ do
             homeSpecs
             tagSpecs
+            toukouSpecs

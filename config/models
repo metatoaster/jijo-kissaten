@@ -11,3 +11,5 @@ Email
 Tag
     name Text
     type Text
+Toukou
+    path Text
