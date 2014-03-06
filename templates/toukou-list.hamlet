@@ -1,0 +1,11 @@
+<h1>Posts
+$if null toukous
+    <p>There is nothing here at this moment.
+$else
+    <ul>
+        $forall Entity toukouId toukou <- toukous
+            <li>
+                <a href=@{ToukouR toukouId}>#{toukouPath toukou}
+
+<hr>
+    <a href=@{ToukouAddR}>Create Post

@@ -1,4 +1,10 @@
-module Handler.Toukou where
+module Handler.Toukou
+    ( getToukouListR
+    , getToukouR
+    , getToukouAddR
+    , postToukouAddR
+    )
+where
 
 import Import
 
@@ -10,23 +16,38 @@ toukouAddForm = renderDivs $ Toukou
 
 getToukouListR :: Handler Html
 getToukouListR = do
-    error "Not yet implemented: getToukousR"
+    toukous <- runDB $ selectList ([] :: [Filter Toukou]) []
+    defaultLayout $ do
+        $(widgetFile "toukou-list")
 
--- singular submission
+-- singular submission view
 
 getToukouR :: ToukouId -> Handler Html
-getToukouR = do
-    error "Not yet implemented: getToukouR"
+getToukouR toukouId = do
+    toukou <- runDB $ get404 toukouId
+    defaultLayout $ do
+        setTitle $ toHtml $ toukouPath toukou
+        $(widgetFile "toukou")
 
 -- low level add form
 
 getToukouAddR :: Handler Html
 getToukouAddR = do
-    error "Not yet implemented: getToukouAddR"
+    (toukouWidget, enctype) <- generateFormPost toukouAddForm
+    defaultLayout $ do
+        $(widgetFile "toukou-add")
 
 postToukouAddR :: Handler Html
 postToukouAddR = do
-    error "Not yet implemented: postToukouAddR"
+    ((res, toukouWidget), enctype) <- runFormPost toukouAddForm
+    case res of
+        FormSuccess toukou -> do
+            toukouId <- runDB $ insert toukou
+            setMessage $ toHtml $ (toukouPath toukou) <> " created"
+            redirect $ ToukouR toukouId
+        _ -> defaultLayout $ do
+            setTitle "Please correct the errors and try again"
+            $(widgetFile "toukou-add")
 
 -- higher level generic upload.
 

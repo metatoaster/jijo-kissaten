@@ -1,0 +1,5 @@
+<h1 id="toukou_id">post:#{toPathPiece toukouId}
+<dl>
+  <dt>Path:
+  <dd>#{toukouPath toukou}
+

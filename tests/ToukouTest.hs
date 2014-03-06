@@ -8,15 +8,14 @@ import qualified Data.List as L
 
 toukouSpecs :: Spec
 toukouSpecs =
-    ydescribe "Testing submissions." $ do
+    ydescribe "Testing posts." $ do
 
-        yit "List all submissions" $ do
+        yit "List all posts when new" $ do
             get ToukouListR
             statusIs 200
-            printBody
-            htmlAllContain "#main p" "There are no toukous defined"
+            htmlAllContain "#main p" "There is nothing here at this moment."
 
-        yit "Post a submission" $ do
+        yit "Submit a new post" $ do
             get ToukouAddR
             statusIs 200
 
@@ -31,7 +30,13 @@ toukouSpecs =
 
             statusIs 302
 
-        yit "Get a submission" $ do
+        yit "Get a post" $ do
             get $ ToukouR $ Key $ PersistInt64 1
             statusIs 200
-            htmlAllContain "h1#toukou_id" "http://img.example.com/test.png"
+            htmlAllContain "h1#toukou_id" "post:1"
+            htmlAllContain "#main dl dd" "http://img.example.com/test.png"
+
+        yit "List posts after some are added." $ do
+            get ToukouListR
+            statusIs 200
+            htmlCount "#main ul li" 1
