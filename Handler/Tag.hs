@@ -18,7 +18,7 @@ getTagListR :: Handler Html
 getTagListR = do
     tags <- runDB $ selectList [] [Asc TagName]
     defaultLayout $ do
-        $(widgetFile "tags")
+        $(widgetFile "tag-list")
 
 getTagAddR :: Handler Html
 getTagAddR = do

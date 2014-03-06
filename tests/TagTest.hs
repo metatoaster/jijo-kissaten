@@ -15,8 +15,8 @@ tagSpecs =
         yit "Default tag list" $ do
             get TagListR
             statusIs 200
-            printBody
             htmlAllContain "#main p" "There are no tags defined"
+            htmlCount "#main ul li" 0
 
         yit "Post a tag" $ do
             get TagAddR
@@ -43,3 +43,8 @@ tagSpecs =
             get ("/tag/info/1" :: Text)
             statusIs 200
             htmlAllContain "h1#tag_id" "a_tag"
+
+        yit "Tag list with a tag" $ do
+            get TagListR
+            statusIs 200
+            htmlCount "#main ul li" 1
