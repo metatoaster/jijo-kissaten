@@ -13,3 +13,7 @@ Tag
     type Text
 Toukou
     path Text
+ToukouTag
+    toukouId ToukouId
+    tagId TagId
+    UniqueToukouTag toukouId tagId
