@@ -1,19 +1,19 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 module Data.Jijo
-    ( toTag
-    , fromTag
+    ( toTagText
+    , fromTagText
     ) where
 
-import Data.Char (isSpace)
+import Prelude
+import Data.Text as T
+import Database.Persist.TH
 
-toUnderscore :: Char -> Char
-toUnderscore c
-    | isSpace c = '_'
-    | otherwise = c
+newtype TagText = TagText T.Text deriving (Eq, Show, Read)
+derivePersistField "TagText"
 
-newtype Tag = Tag String deriving (Eq, Show)
+toTagText :: T.Text -> TagText
+toTagText x = TagText $ T.intercalate "_" $ T.words x
 
-toTag :: String -> Tag
-toTag x = Tag $ map toUnderscore x
-
-fromTag :: Tag -> String
-fromTag (Tag x) = x
+fromTagText :: TagText -> T.Text
+fromTagText (TagText x) = x
