@@ -1,3 +1,7 @@
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE TypeFamilies          #-}
+
 module Handler.Tag
     ( getTagListR
     , getTagR
@@ -8,10 +12,32 @@ where
 
 import Import
 
+import Data.Text as T (intercalate, words, pack)
+-- import Data.Jijo (toTagText, fromTagText)
+
+toTagText :: Text -> Text
+toTagText x = T.intercalate "_" $ T.words x
+
+fromTagText :: Text -> Text
+fromTagText x = x
+
+
+tagtextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m Text
+tagtextField = Field
+    { fieldParse = parseHelper $ Right . toTagText
+    , fieldView = \theId name attrs val isReq ->
+        [whamlet|
+$newline never
+<input id="#{theId}" name="#{name}" *{attrs} type="text" :isReq:required value="#{showVal val}">
+|]
+    , fieldEnctype = UrlEncoded
+    }
+  where showVal = either id (T.pack . show)
+
 
 entryForm :: Form Tag
 entryForm = renderDivs $ Tag
-    <$> areq textField "Name" Nothing
+    <$> areq tagtextField "Name" Nothing
     <*> areq textField "Type" Nothing
 
 getTagListR :: Handler Html
@@ -32,7 +58,7 @@ postTagAddR = do
     case res of
         FormSuccess tag -> do
             tagId <- runDB $ insert tag
-            setMessage $ toHtml $ (tagName tag) <> " created"
+            setMessage $ toHtml $ (fromTagText $ tagName tag) <> " created"
             redirect $ TagR tagId
         _ -> defaultLayout $ do
             setTitle "Please correct the errors and try again"
@@ -42,5 +68,5 @@ getTagR :: TagId -> Handler Html
 getTagR tagId = do
     tag <- runDB $ get404 tagId
     defaultLayout $ do
-        setTitle $ toHtml $ tagName tag
+        setTitle $ toHtml $ fromTagText $ tagName tag
         $(widgetFile "tag")

@@ -1,4 +1,4 @@
-<h1 id="tag_id">Tag: #{tagName tag}
+<h1 id="tag_id">Tag: #{fromTagText $ tagName tag}
 <dl>
   <dt>type:
   <dd>#{tagType tag}
