@@ -12,17 +12,11 @@ where
 
 import Import
 
-import Data.Text as T (intercalate, words, pack)
--- import Data.Jijo (toTagText, fromTagText)
-
-toTagText :: Text -> Text
-toTagText x = T.intercalate "_" $ T.words x
-
-fromTagText :: Text -> Text
-fromTagText x = x
+import Data.Text as T (pack)
+import Data.Jijo (toTagText, fromTagText, TagText)
 
 
-tagtextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m Text
+tagtextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m TagText
 tagtextField = Field
     { fieldParse = parseHelper $ Right . toTagText
     , fieldView = \theId name attrs val isReq ->

@@ -9,8 +9,9 @@ Email
     verkey Text Maybe
     UniqueEmail email
 Tag
-    name Text
+    name TagText
     type Text
+    deriving
 Toukou
     path Text
 ToukouTag

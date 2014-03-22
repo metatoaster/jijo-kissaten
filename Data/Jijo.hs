@@ -3,6 +3,7 @@
 module Data.Jijo
     ( toTagText
     , fromTagText
+    , TagText
     ) where
 
 import Prelude

@@ -6,8 +6,7 @@ import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)
 
--- When I can figure out how to do the comprehensive type safety thing...
--- import Data.Jijo (TagText)
+import Data.Jijo (TagText)
 
 -- You can define all of your database entities in the entities file.
 -- You can find more information on persistent and how to declare entities
