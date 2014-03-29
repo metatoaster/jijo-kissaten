@@ -12,7 +12,6 @@ where
 
 import Import
 
-import Data.Text as T (pack)
 import Data.Jijo (toTagText, fromTagText, TagText)
 
 tagtextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m TagText
@@ -25,7 +24,7 @@ $newline never
 |]
     , fieldEnctype = UrlEncoded
     }
-  where showVal = either id (T.pack . show)
+  where showVal = either id (fromTagText)
 
 
 entryForm :: Form Tag
@@ -50,9 +49,15 @@ postTagAddR = do
     ((res, tagWidget), enctype) <- runFormPost entryForm
     case res of
         FormSuccess tag -> do
-            tagId <- runDB $ insert tag
-            setMessage $ toHtml $ (fromTagText $ tagName tag) <> " created"
-            redirect $ TagR tagId
+            tagId <- runDB $ insertUnique tag
+            case tagId of
+                Just tagId' -> do
+                    setMessage $ toHtml $ (fromTagText $ tagName tag) <> " created"
+                    redirect $ TagR tagId'
+                Nothing -> defaultLayout $ do
+                    setTitle "Tag name already exist, please correct."
+                    -- TODO add the error message at the relevant field.
+                    $(widgetFile "tag-add")
         _ -> defaultLayout $ do
             setTitle "Please correct the errors and try again"
             $(widgetFile "tag-add")

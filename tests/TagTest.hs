@@ -48,3 +48,19 @@ tagSpecs =
             get TagListR
             statusIs 200
             htmlCount "#main ul li" 1
+
+        yit "Post a duplicate tag" $ do
+            get TagAddR
+            request $ do
+                setMethod "POST"
+                setUrl TagAddR
+                addNonce
+                byLabel "Name" "a tag"
+                byLabel "Type" "default"
+
+            statusIs 200
+            -- autocorrected to a_tag
+            htmlAllContain "#hident2" "a_tag"
+
+            tags <- runDB $ selectList ([] :: [Filter Tag]) []
+            assertEqual "duplicate not added" 1 $ L.length tags

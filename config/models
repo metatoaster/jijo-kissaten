@@ -11,6 +11,7 @@ Email
 Tag
     name TagText
     type Text
+    UniqueName name
     deriving
 Toukou
     path Text
