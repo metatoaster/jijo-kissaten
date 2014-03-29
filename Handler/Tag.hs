@@ -15,7 +15,6 @@ import Import
 import Data.Text as T (pack)
 import Data.Jijo (toTagText, fromTagText, TagText)
 
-
 tagtextField :: Monad m => RenderMessage (HandlerSite m) FormMessage => Field m TagText
 tagtextField = Field
     { fieldParse = parseHelper $ Right . toTagText
